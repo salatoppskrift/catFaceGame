@@ -12,6 +12,10 @@ updateView();
 
 function updateView() {
   app.innerHTML = "";
+  document.getElementById("ed").innerHTML = "";
+  const annerkjennelse = document.createElement("p");
+  annerkjennelse.innerHTML = `Lydkilde: tiktok@sirarthurmeows`;
+
   Array.from({ length: 7 }, (_, i) => {
     const divEl = document.createElement("div");
     const buttEl = document.createElement("button");
@@ -31,13 +35,13 @@ function updateView() {
   }).map(
     divObj => app.append(divObj.div)
   );
+  app.append(annerkjennelse);
   if (
-    Object.values(app.getElementsByClassName("catFace")).map(catFace => catFace.innerHTML).every((bool,_,arr) => bool === arr[0])
+    Object.values(app.getElementsByClassName("catFace")).map(catFace => catFace.innerHTML).every((bool, _, arr) => bool === arr[0])
   ) updateView();
 }
 
 function checkFaces() {
-  document.getElementById("ed").innerHTML = "";
   if (Object.values(document.getElementsByClassName("catFace")).every((face, _, arr) => face.innerHTML === arr[0].innerHTML)) {
     const section = document.createElement("section");
     section.className = "grattis";
@@ -45,6 +49,13 @@ function checkFaces() {
         <h2>Gratulerer!</h2>
         <p>Alle ansikter matcher!</p>
       `;
+
+    Object.values(document.getElementsByClassName("catFace")).map(face => {
+      if (face instanceof HTMLButtonElement) {
+        face.disabled = true;
+        face.style.cursor = "not-allowed";
+      }
+    })
 
     const btn = document.createElement("button");
     btn.innerHTML = "Start på nytt?";
@@ -55,16 +66,16 @@ function checkFaces() {
 }
 
 function Sound(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-    this.play = function(){
-        this.sound.play();
-    }
-    this.stop = function(){
-        this.sound.pause();
-    }    
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function () {
+    this.sound.play();
+  }
+  this.stop = function () {
+    this.sound.pause();
+  }
 }
