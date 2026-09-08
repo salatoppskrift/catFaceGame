@@ -4,18 +4,18 @@
   box-sizing: border-box;
 }
 #app {
-  background: aliceblue;
+  background: hsl(88, 100%, 97%);
   position: relative;
   width: 100%;
-  height: calc(4rem * 3);
+  aspect-ratio: 4.82;
 }
 #app > div {
   position: absolute;
   background: azure;
   width: 4rem;
   aspect-ratio: 1;
-  animation-name: move1, move2, move3;
-  animation-duration: 4s;
+  animation-name: move1, move2;
+  animation-duration: 8s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   user-select: none;
@@ -24,35 +24,74 @@
   
   transform: translate3d(0, 0%, 0);
   
-  >div { 
+  >button { 
     font-size: 2.5rem;
-    display: flex;
-    justify-content: center;
+    width: 100%;
     cursor: pointer;
+    background: none;
+    border: none;
   }
-  >div:active {
+  >button:active {
     animation-name: big;
     animation-duration: 0.4s;
   }
 }
+#app > div:nth-child(2n) {
+  animation-name: move1, move2, move6;
+}
+#app > div:nth-child(3n) {
+  animation-name: move1, move2, move6, move4;
+}
+#app > div:nth-child(4n) {
+  animation-name: move1, move2, move6, move4, move5;
+}
+#app > div:nth-child(5n) {
+  animation-name: move1, move2, move6, move4, move3;
+}
 
+.grattis {
+  >* { margin: .6rem 2rem; }
+  button {
+    padding: .2rem .8rem;
+  }
+}
 @keyframes big {
   0% { scale: 1; }
   50% { scale: 1.2; }
   100% { scale: 1; }
 }
 @keyframes move1 {
-  0% { transform: translate3d(600%, 200%, 0); }
-  40% { transform: translate3d(-80%, -30%, 0); }
-  100% { transform: translate3d(600%, 200%, 0); }
+  0% { transform: translate3d(0%, 0, 0); }
+  25% { transform: translate3d(400%, 100%, 0); }
+  50% { transform: translate3d(800%, 0, 0); }
+  75% { transform: translate3d(400%, 100%, 0); }
+  100% { transform: translate3d(0%, 0, 0); }
 }
-/*
 @keyframes move2 {
-  50% { transform: translate3d(300%, 0, 0); }
+  33% { transform: translate3d(600%, 200%, 0); }
+  66% { transform: translate3d(200%, 0, 0); }
 }
 @keyframes move3 {
-  50% { transform: translate3d(0, 200%, 0); }
+  50% { transform: translate3d(800%, 80%, 0); }
 }
+@keyframes move4 {
+  0% { transform: translate3d(800%, 200%, 0); }
+  50% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(800%, 200%, 0); }
+}
+@keyframes move5 {
+  0% { transform: translate3d(860%, 0, 0); }
+  25% { transform: translate3d(430%, 20%, 0); }
+  50% { transform: translate3d(0, 0, 0); }
+  75% { transform: translate3d(430%, 20%, 0); }
+  100% { transform: translate3d(860%, 0, 0); }
+}
+@keyframes move6 {
+  0% { transform: translate3d(500%, 30%, 0); }
+  50% { transform: translate3d(0, 200%, 0); }
+  100% { transform: translate3d(500%, 30%, 0); }
+}
+/*
 ----
 @keyframes move1 {
   0% { transform: translate3d(100px, 100px, 0); }
