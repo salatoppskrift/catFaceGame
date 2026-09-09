@@ -29,7 +29,7 @@ function updateView(catFacesArr) {
     buttEl.setAttribute("class", "catFace");
     divEl.addEventListener("click", function () {
       buttEl.innerHTML = randomise(faces, Math.random);
-      new Sound("hide/arthurabsense (online-video-cutter.com).mp3").play();
+      new Sound("hide/meow.mp3").play();
     });
     divEl.addEventListener("click", checkFaces);
     divEl.append(buttEl);
