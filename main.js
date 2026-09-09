@@ -8,25 +8,24 @@ const catFaces = {
   love: "😻",
   shock: "🙀"
 };
-updateView();
+updateView(Object.values(catFaces));
 
-function updateView() {
+function updateView(catFacesArr) {
   app.innerHTML = "";
   document.getElementById("ed").innerHTML = "";
   const annerkjennelse = document.createElement("p");
   annerkjennelse.innerHTML = `Lydkilde: tiktok@sirarthurmeows`;
+  const faces = catFacesArr;
 
   Array.from({ length: 7 }, (_, i) => {
     const divEl = document.createElement("div");
     const buttEl = document.createElement("button");
-    const faces = Object.values(catFaces);
 
     divEl.style.animationDelay = `calc(${-0.6 * i}s)`;
-    buttEl.innerHTML = faces[Math.floor(Math.random() * faces.length)];
+    buttEl.innerHTML = randomise(faces, Math.random);
     buttEl.setAttribute("class", "catFace");
     divEl.addEventListener("click", function () {
-      buttEl.innerHTML =
-        faces[Math.floor(Math.random() * faces.length)];
+      buttEl.innerHTML = randomise(faces, Math.random);
       new Sound("hide/arthurabsense (online-video-cutter.com).mp3").play();
     });
     divEl.addEventListener("click", checkFaces);
@@ -38,7 +37,7 @@ function updateView() {
   app.append(annerkjennelse);
   if (
     Object.values(app.getElementsByClassName("catFace")).map(catFace => catFace.innerHTML).every((bool, _, arr) => bool === arr[0])
-  ) updateView();
+  ) updateView(catFacesArr);
 }
 
 function checkFaces() {
@@ -63,6 +62,11 @@ function checkFaces() {
     section.append(btn);
     document.getElementById("ed").append(section);
   }
+}
+
+function randomise(strArr, func) {
+  if (Array.isArray(strArr))
+    return strArr[Math.floor(func() * strArr.length)];
 }
 
 function Sound(src) {
