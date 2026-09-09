@@ -65,8 +65,14 @@ function checkFaces() {
 }
 
 function randomise(strArr, func) {
-  if (Array.isArray(strArr))
+  try {
+    if (!Array.isArray(strArr) || !(func instanceof Function))
+      throw [Array.isArray(strArr), func instanceof Function];
+
     return strArr[Math.floor(func() * strArr.length)];
+  } catch (err) {
+    console.log(`En eller flere av parametre ${err} er noe manglende.`);
+  }
 }
 
 function Sound(src) {
