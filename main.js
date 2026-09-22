@@ -26,7 +26,7 @@ function updateView(catFacesArr) {
     buttEl.setAttribute("class", "catFace");
     divEl.addEventListener("click", function () {
       buttEl.innerHTML = randomise(faces, Math.random);
-      new Sound("sounds/meow.mp3").play();
+      new Sound("./sounds/meow.mp3").play();
     });
     divEl.addEventListener("click", checkFaces);
     divEl.append(buttEl);
