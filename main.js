@@ -1,5 +1,4 @@
 const app = document.getElementById("app");
-const ed = document.getElementById("ed");
 const catFaces = {
   joy: "😹",
   angry: "😾",
@@ -13,12 +12,10 @@ updateView(Object.values(catFaces));
 
 function updateView(catFacesArr) {
   app.innerHTML = "";
-  ed.innerHTML = "";
+  document.getElementById("ed").innerHTML = "";
   const annerkjennelse = document.createElement("p");
   annerkjennelse.innerHTML = `Lydkilde: tiktok@sirarthurmeows`;
-  const faces = Array.isArray(catFacesArr)
-    ? catFaces
-    : Object.values(catFaces);
+  const faces = catFacesArr;
 
   Array.from({ length: 7 }, (_, i) => {
     const divEl = document.createElement("div");
@@ -44,10 +41,7 @@ function updateView(catFacesArr) {
 }
 
 function checkFaces() {
-  if (Object.values(document.getElementsByClassName("catFace"))
-    .every((face, _, arr) =>
-      face.innerHTML === arr[0].innerHTML)
-  ) {
+  if (Object.values(document.getElementsByClassName("catFace")).every((face, _, arr) => face.innerHTML === arr[0].innerHTML)) {
     const section = document.createElement("section");
     section.className = "grattis";
     section.innerHTML = `
@@ -66,7 +60,7 @@ function checkFaces() {
     btn.innerHTML = "Start på nytt?";
     btn.addEventListener("click", updateView);
     section.append(btn);
-    ed.append(section);
+    document.getElementById("ed").append(section);
   }
 }
 
