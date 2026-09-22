@@ -26,7 +26,7 @@ function updateView(catFacesArr) {
     buttEl.setAttribute("class", "catFace");
     divEl.addEventListener("click", function () {
       buttEl.innerHTML = randomise(faces, Math.random);
-      new Sound("hide/meow.mp3").play();
+      new Sound("sounds/meow.mp3").play();
     });
     divEl.addEventListener("click", checkFaces);
     divEl.append(buttEl);
@@ -58,7 +58,7 @@ function checkFaces() {
 
     const btn = document.createElement("button");
     btn.innerHTML = "Start på nytt?";
-    btn.addEventListener("click", updateView);
+    btn.addEventListener("click", () => { updateView(Object.values(catFaces)) });
     section.append(btn);
     document.getElementById("ed").append(section);
   }
