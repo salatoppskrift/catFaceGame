@@ -1,5 +1,5 @@
 const app = document.getElementById("app");
-const catFaces = {
+const catFaceTemplate = {
   joy: "😹",
   angry: "😾",
   sad: "😿",
@@ -8,48 +8,56 @@ const catFaces = {
   love: "😻",
   shock: "🙀"
 };
-updateView(Object.values(catFaces));
+const catFaces = {
+  html: () => Object.values(document.getElementsByClassName("catFace")),
+  arr: Object.values(catFaceTemplate)
+};
 
-function updateView(catFacesArr) {
-  app.innerHTML = "";
-  document.getElementById("ed").innerHTML = "";
-  const annerkjennelse = document.createElement("p");
-  annerkjennelse.innerHTML = `Lydkilde: tiktok@sirarthurmeows`;
-  const faces = catFacesArr;
+updateView(7)(catFaces.arr);
 
-  Array.from({ length: 7 }, (_, i) => {
-    const divEl = document.createElement("div");
-    const buttEl = document.createElement("button");
+function updateView(howManyKitties) {
+  return (catFacesArr) => {
+    app.innerHTML = "";
+    document.getElementById("ed").innerHTML = "";
+    const annerkjennelse = document.createElement("p");
+    annerkjennelse.innerHTML = `Lydkilde: tiktok@sirarthurmeows`;
+    const faces = catFacesArr;
 
-    divEl.style.animationDelay = `calc(${-0.6 * i}s)`;
-    buttEl.innerHTML = randomise(faces, Math.random);
-    buttEl.setAttribute("class", "catFace");
-    divEl.addEventListener("click", function () {
+    Array.from({ length: howManyKitties }, (_, i) => {
+      const divEl = document.createElement("div");
+      const buttEl = document.createElement("button");
+
+      divEl.style.animationDelay = `calc(${-0.6 * i}s)`;
       buttEl.innerHTML = randomise(faces, Math.random);
-      new Sound("./sounds/meow.mp3").play();
-    });
-    divEl.addEventListener("click", checkFaces);
-    divEl.append(buttEl);
-    return { div: divEl };
-  }).map(
-    divObj => app.append(divObj.div)
-  );
-  app.append(annerkjennelse);
-  if (
-    Object.values(app.getElementsByClassName("catFace")).map(catFace => catFace.innerHTML).every((bool, _, arr) => bool === arr[0])
-  ) updateView(catFacesArr);
+      buttEl.setAttribute("class", "catFace");
+      divEl.addEventListener("click", function () {
+        buttEl.innerHTML = randomise(faces, Math.random);
+        new Sound("./sounds/meow.mp3").play();
+      });
+      divEl.addEventListener("click", checkFaces);
+      divEl.append(buttEl);
+      return { div: divEl };
+    }).map(
+      divObj => app.append(divObj.div)
+    );
+    app.append(annerkjennelse);
+    if (
+      catFaces.html().map(catFace => catFace.innerHTML).every((bool, _, arr) => bool === arr[0])
+    ) updateView(catFacesArr);
+  }
 }
 
 function checkFaces() {
-  if (Object.values(document.getElementsByClassName("catFace")).every((face, _, arr) => face.innerHTML === arr[0].innerHTML)) {
+  const catFaceHtml = catFaces.html();
+  if (catFaceHtml.every((face, _, arr) => face.innerHTML === arr[0].innerHTML)) {
     const section = document.createElement("section");
     section.className = "grattis";
     section.innerHTML = `
         <h2>Gratulerer!</h2>
-        <p>Alle ansikter matcher!</p>
-      `;
+        <p>Alle ansikter matcher!</p>${specificEmotionPrize(catFaceHtml[0].innerHTML, catFaceTemplate)
+      }`;
 
-    Object.values(document.getElementsByClassName("catFace")).map(face => {
+    catFaceHtml.map(face => {
       if (face instanceof HTMLButtonElement) {
         face.disabled = true;
         face.style.cursor = "not-allowed";
@@ -58,10 +66,32 @@ function checkFaces() {
 
     const btn = document.createElement("button");
     btn.innerHTML = "Start på nytt?";
-    btn.addEventListener("click", () => { updateView(Object.values(catFaces)) });
+    btn.addEventListener("click", () => { updateView(catFaces.arr) });
     section.append(btn);
     document.getElementById("ed").append(section);
   }
+}
+
+function specificEmotionPrize(face, template) {
+  return Array.from({ length: 1 }, (() => {
+    switch (face) {
+      case template.joy:
+        return "De har latterkrampe!!";
+      case template.angry:
+        return "Oi, så sinna...";
+      case template.sad:
+        return "Det er ikke et tørt øye i tomrommet.";
+      case template.happy:
+        return "Lykken er her!";
+      case template.smug:
+        return "De har onde planer og de involverer deg.";
+      case template.love:
+        return "En gjeng med katter er storforelsket i deg.";
+      case template.shock:
+        return "SJOKK!";
+      default: "(Hvordan havnet No-Face fra Chihiro og Heksene her..?)";
+    }
+  })()).map(sentence => `<p>${sentence}</p>`).join("");
 }
 
 function randomise(strArr, func) {
